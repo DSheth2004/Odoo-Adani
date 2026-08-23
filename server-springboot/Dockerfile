@@ -29,7 +29,7 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
 # Expose the port the Spring‑Boot app listens on (default 8080)
-EXPOSE 8080
+EXPOSE 5000
 
 # Entrypoint – runs the JAR. All configuration is pulled from
 # environment variables (see `application.properties`).
