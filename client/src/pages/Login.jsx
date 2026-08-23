@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(String(email || '').trim());
 const AUTH_URL = import.meta.env.VITE_AUTH_URL || 'http://localhost:5000';
 const Login = () => {
-    const { login, setAuthData } = useAuth();
+    const { login, setAuthData, isAuthenticated, user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -18,25 +18,34 @@ const Login = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const searchParams = new URLSearchParams(location.search);
-        const token = searchParams.get('token');
-        const role = searchParams.get('role') || 'employee';
-        const oauthEmail = searchParams.get('email');
-        const name = searchParams.get('name');
+    const searchParams = new URLSearchParams(location.search);
+    const token = searchParams.get('token');
+    const role = searchParams.get('role') || 'employee';
+    const oauthEmail = searchParams.get('email');
+    const name = searchParams.get('name');
 
-        if (token) {
-            setAuthData({
-                token,
-                user: {
-                    email: oauthEmail || '',
-                    role: role,
-                    full_name: name || 'OAuth User'
-                }
-            });
-            // Full page redirect to root which will forward to appropriate page
-            window.location.replace('/');
+    if (token) {
+      setAuthData({
+        token,
+        user: {
+          email: oauthEmail || '',
+          role: role,
+          full_name: name || 'OAuth User'
         }
-    }, [location.search, navigate, setAuthData]);
+      });
+      // Navigate to appropriate page based on role
+      const target = role === 'admin' ? '/dashboard' : '/requests';
+      navigate(target, { replace: true });
+    }
+  }, [location.search, navigate, setAuthData]);
+
+    // If user is already authenticated (e.g., after OAuth redirect) navigate them away from the login page
+    useEffect(() => {
+      if (isAuthenticated && user?.role) {
+        const target = user.role === 'admin' ? '/dashboard' : '/requests';
+        navigate(target, { replace: true });
+      }
+    }, [isAuthenticated, user, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -136,14 +145,14 @@ const Login = () => {
 
                         <a
                             href="#"
-                            onClick={(e) => { e.preventDefault(); window.location.replace("${AUTH_URL}/oauth2/authorization/google"); }}
+                            onClick={(e) => { e.preventDefault(); window.location.replace("http://localhost:5000/oauth2/authorization/google"); }}
                             className="flex items-center justify-center gap-2 border-2 border-gray-900 p-2 font-bold text-xs hover:bg-gray-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-transform active:translate-x-0.5 active:translate-y-0.5 cursor-pointer bg-white"
                         >
                             Google
                         </a>
                         <a
                             href="#"
-                            onClick={(e) => { e.preventDefault(); window.location.replace("${AUTH_URL}/oauth2/authorization/github"); }}
+                            onClick={(e) => { e.preventDefault(); window.location.replace("http://localhost:5000/oauth2/authorization/github"); }}
                             className="flex items-center justify-center gap-2 border-2 border-gray-900 p-2 font-bold text-xs hover:bg-gray-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-transform active:translate-x-0.5 active:translate-y-0.5 cursor-pointer bg-white"
                         >
                             GitHub
