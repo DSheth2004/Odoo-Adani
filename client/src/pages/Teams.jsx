@@ -24,9 +24,9 @@ const Teams = () => {
         setLoading(true);
         setError('');
         try {
-            const teamsReq = api.get('/api/teams');
+            const teamsReq = api.get('/teams');
             const techReq = role === 'admin'
-                ? api.get('/api/users', { params: { role: 'technician' } })
+                ? api.get('/users', { params: { role: 'technician' } })
                 : Promise.resolve({ data: [] });
             const [teamsRes, techRes] = await Promise.all([teamsReq, techReq]);
             setTeams(teamsRes.data || []);
@@ -56,7 +56,7 @@ const Teams = () => {
         if (!memberId) return setError('Team member is required');
 
         try {
-            await api.post('/api/teams', { name, company: company || null, member_user_id: memberId });
+            await api.post('/teams', { name, company: company || null, member_user_id: memberId });
             setShowNew(false);
             setForm({ name: '', company: '', member_user_id: '' });
             await load();
@@ -75,7 +75,7 @@ const Teams = () => {
         if (!userId) return setError('Select a technician');
 
         try {
-            await api.post(`/api/teams/${teamId}/members`, { user_id: userId });
+            await api.post(`/teams/${teamId}/members`, { user_id: userId });
             setAddMember({ team_id: '', user_id: '' });
             await load();
         } catch (err) {

@@ -43,10 +43,10 @@ const MaintenanceRequest = () => {
         (async () => {
             try {
                 setLoading(true);
-                const eqReq = api.get('/api/equipment');
-                const teamsReq = role === 'admin' ? api.get('/api/teams') : api.get('/api/team-options');
+                const eqReq = api.get('/equipment');
+                const teamsReq = role === 'admin' ? api.get('/teams') : api.get('/team-options');
                 const techReq = role === 'admin'
-                    ? api.get('/api/users', { params: { role: 'technician' } })
+                    ? api.get('/users', { params: { role: 'technician' } })
                     : Promise.resolve({ data: [] });
 
                 const [eqRes, teamsRes, techRes] = await Promise.all([eqReq, teamsReq, techReq]);
@@ -105,7 +105,7 @@ const MaintenanceRequest = () => {
                 instructions: form.instructions,
                 scheduled_start: form.scheduled_start ? new Date(form.scheduled_start).toISOString() : null,
             };
-            const res = await api.post('/api/requests', payload);
+            const res = await api.post('/requests', payload);
             setSavedId(res.data.id);
         } catch (err) {
             setError(err?.response?.data?.error || 'Failed to create request');

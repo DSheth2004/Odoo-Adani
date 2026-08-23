@@ -20,7 +20,7 @@ const Requests = () => {
         setLoading(true);
         setError('');
         try {
-            const res = await api.get('/api/requests');
+            const res = await api.get('/requests');
             setRequests(res.data || []);
         } catch (err) {
             setError(err?.response?.data?.error || 'Failed to load requests');
@@ -38,7 +38,7 @@ const Requests = () => {
         const loadTechnicians = async () => {
             if (role !== 'admin') return;
             try {
-                const res = await api.get('/api/users', { params: { role: 'technician' } });
+                const res = await api.get('/users', { params: { role: 'technician' } });
                 setTechnicians(res.data || []);
             } catch {
                 // Keep the page usable even if technicians cannot be loaded.
@@ -78,7 +78,7 @@ const Requests = () => {
         setError('');
         try {
             setSavingId(id);
-            await api.put(`/api/requests/${id}`, patch);
+            await api.put(`/requests/${id}`, patch);
             await load();
         } catch (err) {
             setError(err?.response?.data?.error || 'Failed to update request');

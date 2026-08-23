@@ -17,7 +17,7 @@ const Users = () => {
         setError('');
         setLoading(true);
         try {
-            const res = await api.get('/api/users');
+            const res = await api.get('/users');
             setUsers(Array.isArray(res.data) ? res.data : []);
         } catch (err) {
             setError(err?.response?.data?.error || 'Failed to load users');
@@ -36,7 +36,7 @@ const Users = () => {
         setError('');
         setSavingUserId(userId);
         try {
-            const res = await api.patch(`/api/users/${userId}/role`, { role });
+            const res = await api.patch(`/users/${userId}/role`, { role });
             const updated = res.data;
             setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, ...updated } : u)));
         } catch (err) {
