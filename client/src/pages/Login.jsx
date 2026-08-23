@@ -145,14 +145,14 @@ const Login = () => {
 
                         <a
                             href="#"
-                            onClick={(e) => { e.preventDefault(); window.location.replace("http://localhost:5000/oauth2/authorization/google"); }}
+                            onClick={(e) => { e.preventDefault(); window.location.replace(`${AUTH_URL}/oauth2/authorization/google`); }}
                             className="flex items-center justify-center gap-2 border-2 border-gray-900 p-2 font-bold text-xs hover:bg-gray-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-transform active:translate-x-0.5 active:translate-y-0.5 cursor-pointer bg-white"
                         >
                             Google
                         </a>
                         <a
                             href="#"
-                            onClick={(e) => { e.preventDefault(); window.location.replace("http://localhost:5000/oauth2/authorization/github"); }}
+                            onClick={(e) => { e.preventDefault(); window.location.replace(`${AUTH_URL}/oauth2/authorization/github`); }}
                             className="flex items-center justify-center gap-2 border-2 border-gray-900 p-2 font-bold text-xs hover:bg-gray-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-transform active:translate-x-0.5 active:translate-y-0.5 cursor-pointer bg-white"
                         >
                             GitHub
