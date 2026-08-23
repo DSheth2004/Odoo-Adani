@@ -4,7 +4,7 @@ import { LogIn, Mail, ShieldCheck, KeyRound } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(String(email || '').trim());
-const VITE_VITE_AUTH_URL = import.meta.env.VITE_VITE_AUTH_URL || 'http://localhost:5000';
+const VITE_AUTH_URL = import.meta.env.VITE_AUTH_URL || 'http://localhost:5000';
 const Login = () => {
     const { login, setAuthData, isAuthenticated, user } = useAuth();
     const navigate = useNavigate();
