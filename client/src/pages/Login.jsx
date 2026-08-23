@@ -4,7 +4,7 @@ import { LogIn, Mail, ShieldCheck, KeyRound } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(String(email || '').trim());
-const AUTH_URL = import.meta.env.VITE_AUTH_URL || 'http://localhost:5000';
+const VITE_AUTH_URL = import.meta.env.VITE_AUTH_URL || 'http://localhost:5000';
 const Login = () => {
     const { login, setAuthData, isAuthenticated, user } = useAuth();
     const navigate = useNavigate();
@@ -18,33 +18,33 @@ const Login = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const token = searchParams.get('token');
-    const role = searchParams.get('role') || 'employee';
-    const oauthEmail = searchParams.get('email');
-    const name = searchParams.get('name');
+        const searchParams = new URLSearchParams(location.search);
+        const token = searchParams.get('token');
+        const role = searchParams.get('role') || 'employee';
+        const oauthEmail = searchParams.get('email');
+        const name = searchParams.get('name');
 
-    if (token) {
-      setAuthData({
-        token,
-        user: {
-          email: oauthEmail || '',
-          role: role,
-          full_name: name || 'OAuth User'
+        if (token) {
+            setAuthData({
+                token,
+                user: {
+                    email: oauthEmail || '',
+                    role: role,
+                    full_name: name || 'OAuth User'
+                }
+            });
+            // Navigate to appropriate page based on role
+            const target = role === 'admin' ? '/dashboard' : '/requests';
+            navigate(target, { replace: true });
         }
-      });
-      // Navigate to appropriate page based on role
-      const target = role === 'admin' ? '/dashboard' : '/requests';
-      navigate(target, { replace: true });
-    }
-  }, [location.search, navigate, setAuthData]);
+    }, [location.search, navigate, setAuthData]);
 
     // If user is already authenticated (e.g., after OAuth redirect) navigate them away from the login page
     useEffect(() => {
-      if (isAuthenticated && user?.role) {
-        const target = user.role === 'admin' ? '/dashboard' : '/requests';
-        navigate(target, { replace: true });
-      }
+        if (isAuthenticated && user?.role) {
+            const target = user.role === 'admin' ? '/dashboard' : '/requests';
+            navigate(target, { replace: true });
+        }
     }, [isAuthenticated, user, navigate]);
 
     const handleSubmit = async (e) => {
