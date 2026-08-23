@@ -44,9 +44,9 @@ const EquipmentList = () => {
         setLoading(true);
         setError('');
         try {
-            const eqReq = api.get('/api/equipment', { params: q ? { q } : {} });
-            const empReq = isAdmin ? api.get('/api/users', { params: { role: 'employee' } }) : Promise.resolve({ data: [] });
-            const techReq = isAdmin ? api.get('/api/users', { params: { role: 'technician' } }) : Promise.resolve({ data: [] });
+            const eqReq = api.get('/equipment', { params: q ? { q } : {} });
+            const empReq = isAdmin ? api.get('/users', { params: { role: 'employee' } }) : Promise.resolve({ data: [] });
+            const techReq = isAdmin ? api.get('/users', { params: { role: 'technician' } }) : Promise.resolve({ data: [] });
 
             const [eqRes, empRes, techRes] = await Promise.all([eqReq, empReq, techReq]);
             setEquipment(eqRes.data || []);
@@ -100,7 +100,7 @@ const EquipmentList = () => {
         if (!payload.technician_id) return setError('Technician is required');
 
         try {
-            await api.post('/api/equipment', payload);
+            await api.post('/equipment', payload);
             setShowNew(false);
             setForm({
                 name: '',
@@ -152,7 +152,7 @@ const EquipmentList = () => {
         if (!payload.technician_id) return setError('Technician is required');
 
         try {
-            await api.put(`/api/equipment/${selectedId}`, payload);
+            await api.put(`/equipment/${selectedId}`, payload);
             await load();
         } catch (err) {
             setError(err?.response?.data?.error || 'Failed to update equipment');
@@ -402,23 +402,23 @@ const EquipmentList = () => {
                             filtered.map((e) => {
                                 const isSelected = String(selectedId || '') === String(e.id);
                                 return (
-                                <tr
-                                    key={e.id}
-                                    className={`border-b border-gray-200 last:border-b-0 cursor-pointer ${isSelected ? 'bg-maint-blue shadow-inner' : 'hover:bg-gray-50'}`}
-                                    onClick={() => onSelectRow(e)}
-                                >
-                                    <td className="py-4 px-2 font-black">{e.name}</td>
-                                    <td className="py-4 px-2 font-bold">{e.employee_name || '—'}</td>
-                                    <td className="py-4 px-2 font-bold">{e.department || '—'}</td>
-                                    <td className="py-4 px-2 font-bold">{e.serial_number}</td>
-                                    <td className="py-4 px-2 font-bold">{e.technician_name || '—'}</td>
-                                    <td className="py-4 px-2 font-bold">{e.category || '—'}</td>
-                                    <td className="py-4 px-2 font-bold">{e.company || '—'}</td>
-                                    <td className="py-4 px-2 text-right">
-                                        <span className={`sketch-tag ${statusBadgeClass(e.status)} font-black uppercase text-xs`}>{e.status}</span>
-                                    </td>
-                                </tr>
-                            );
+                                    <tr
+                                        key={e.id}
+                                        className={`border-b border-gray-200 last:border-b-0 cursor-pointer ${isSelected ? 'bg-maint-blue shadow-inner' : 'hover:bg-gray-50'}`}
+                                        onClick={() => onSelectRow(e)}
+                                    >
+                                        <td className="py-4 px-2 font-black">{e.name}</td>
+                                        <td className="py-4 px-2 font-bold">{e.employee_name || '—'}</td>
+                                        <td className="py-4 px-2 font-bold">{e.department || '—'}</td>
+                                        <td className="py-4 px-2 font-bold">{e.serial_number}</td>
+                                        <td className="py-4 px-2 font-bold">{e.technician_name || '—'}</td>
+                                        <td className="py-4 px-2 font-bold">{e.category || '—'}</td>
+                                        <td className="py-4 px-2 font-bold">{e.company || '—'}</td>
+                                        <td className="py-4 px-2 text-right">
+                                            <span className={`sketch-tag ${statusBadgeClass(e.status)} font-black uppercase text-xs`}>{e.status}</span>
+                                        </td>
+                                    </tr>
+                                );
                             })
                         )}
                     </tbody>

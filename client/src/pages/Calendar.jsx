@@ -37,7 +37,7 @@ const Calendar = () => {
         (async () => {
             try {
                 setLoading(true);
-                const res = await api.get('/api/requests', {
+                const res = await api.get('/requests', {
                     params: {
                         from: weekStart.toISOString(),
                         to: weekEnd.toISOString(),

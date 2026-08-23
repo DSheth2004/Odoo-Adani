@@ -16,7 +16,7 @@ const Dashboard = () => {
         (async () => {
             try {
                 setLoading(true);
-                const res = await api.get('/api/dashboard');
+                const res = await api.get('/dashboard');
                 if (!mounted) return;
                 setStats(res.data.stats);
                 setActivities(res.data.activities || []);
