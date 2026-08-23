@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(String(email || '').trim());
 const isStrongPassword = (password) => /^(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$/.test(String(password || ''));
-
+const AUTH_URL = import.meta.env.VITE_AUTH_URL || 'http://localhost:5000';
 const Signup = () => {
     const { signup } = useAuth();
     const navigate = useNavigate();

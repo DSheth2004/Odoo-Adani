@@ -17,11 +17,11 @@ api.interceptors.request.use((config) => {
 });
 
 export async function loginRequest({ email, password }) {
-  const res = await api.post('/api/auth/login', { email, password });
+  const res = await api.post('/auth/login', { email, password });
   return res.data;
 }
 
 export async function signupRequest({ full_name, email, password }) {
-  const res = await api.post('/api/auth/signup', { full_name, email, password });
+  const res = await api.post('/auth/signup', { full_name, email, password });
   return res.data;
 }
